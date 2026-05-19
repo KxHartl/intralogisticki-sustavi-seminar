@@ -1,0 +1,12 @@
+# LiteRealm Python Dependencies
+# Installed automatically by bootstrap when RAG mode is enabled.
+
+python-dotenv
+
+# --- RAG dependencies (installed with -rag cloud or -rag local) ---
+# langchain
+# langchain-community
+# chromadb
+# pypdf
+# google-generativeai       # cloud mode
+# sentence-transformers     # local mode
