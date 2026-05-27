@@ -1,0 +1,138 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[croatian]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathptmx}
+\usepackage[style=ieee,backend=bibtex]{biblatex}
+\addbibresource{../sources.bib}       % Times New Roman font
+\usepackage{chngcntr}       % Za numeriranje po poglavljima
+\usepackage{tikz}           % TikZ se može koristiti za druge svrhe, ali slike u tekstu uklanjamo
+\usepackage[hidelinks]{hyperref} % Za dodavanje linkova (reference, tablice)
+
+% Postavke margina
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\setlength{\headheight}{14.5pt}
+
+% Prored 1.5
+\onehalfspacing
+
+% ---- STILOVI NASLOVA ----
+% Section: nova stranica + bold uppercase
+\titleformat{\section}
+  {\normalfont\large\bfseries}{\thesection.}{0.5em}{}
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\itshape}{\thesubsubsection.}{0.5em}{}
+\titleformat{\paragraph}[hang]
+  {\normalfont\normalsize\itshape}{\theparagraph.}{0.5em}{}
+\titlespacing*{\paragraph}{0pt}{3.25ex plus 1ex minus .2ex}{0.5em}
+
+% Svaki \section počinje na novoj stranici
+\newcommand{\sectionbreak}{\clearpage}
+
+% ---- NUMERIRANJE SLIKA, TABLICA I JEDNADŽBI PO POGLAVLJIMA ----
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+\counterwithin{equation}{section}
+
+% Dubina numeriranja (do 4 razine)
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+% ---- NAZIVI AUTOMATSKIH POPISA (addto jer babel croatian overrida renewcommand) ----
+\addto\captionscroatian{%
+  \renewcommand{\contentsname}{SADRŽAJ}%
+  \renewcommand{\listfigurename}{POPIS SLIKA}%
+  \renewcommand{\listtablename}{POPIS TABLICA}%
+  \renewcommand{\refname}{LITERATURA}%
+}
+
+% ---- POTPISI SLIKA I TABLICA ----
+% Captions: 11pt Bold
+\captionsetup[figure]{font={small,bf},labelsep=period}
+\captionsetup[table]{font={small,bf},labelsep=period,position=above}
+
+% ---- ZAGLAVLJE I PODNOŽJE ----
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{Krešimir Hartl}}
+\fancyhead[R]{\small\textit{Autonomni viličari i industrijska vozila}}
+\fancyfoot[L]{\small\textit{Fakultet strojarstva i brodogradnje}}
+\fancyfoot[R]{\small\textit{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+
+\begin{titlepage}
+    \thispagestyle{empty}
+    \centering
+    {\fontsize{16pt}{19pt}\selectfont SVEUČILIŠTE U ZAGREBU\\}
+    {\fontsize{16pt}{19pt}\selectfont FAKULTET STROJARSTVA I BRODOGRADNJE\\}
+    \vfill
+    {\fontsize{28pt}{34pt}\selectfont\bfseries Automatizirani intralogistički sustavi\\}
+    \vspace{1.5cm}
+    {\fontsize{18pt}{22pt}\selectfont\bfseries Autonomni viličari i industrijska vozila\\}
+    \vfill
+    \noindent
+    \begin{minipage}[t]{0.48\textwidth}
+        \raggedright
+        {\fontsize{14pt}{17pt}\selectfont Profesor:\\}
+        {\fontsize{14pt}{17pt}\selectfont Prof. dr. sc. Goran Đukić\\}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \raggedleft
+        {\fontsize{14pt}{17pt}\selectfont Student:\\}
+        {\fontsize{14pt}{17pt}\selectfont\bfseries Krešimir Hartl\\}
+    \end{minipage}
+    \vspace{1.5cm}
+    \begin{center}
+        {\fontsize{14pt}{17pt}\selectfont Zagreb, 2026.}
+    \end{center}
+\end{titlepage}
+
+\pagenumbering{Roman}
+
+\tableofcontents
+\newpage
+\listoftables
+\newpage
+
+% Uklonjen popis slika jer su sve slike uklonjene iz rada na zahtjev korisnika.
+
+% =====================================================================
+% SADRŽAJ RADA (arapske stranice)
+% =====================================================================
+\pagenumbering{arabic}
+
+\input{01_uvod.tex}
+\clearpage
+\input{02_klasicni_vs_autonomni.tex}
+\clearpage
+\input{03_sigurnosni_sustavi.tex}
+\clearpage
+\input{04_navigacijske_tehnologije.tex}
+\clearpage
+\input{05_primjeri.tex}
+\clearpage
+\input{06_prednosti.tex}
+\clearpage
+\input{07_zakljucak.tex}
+\clearpage
+
+\printbibliography[heading=bibintoc, title={LITERATURA}]
+
+\end{document}

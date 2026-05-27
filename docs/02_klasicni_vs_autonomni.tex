@@ -1,0 +1,52 @@
+\section{KLASIČNI VS. AUTONOMNI VILIČARI}
+Usporedba klasičnih i autonomnih viličara otkriva duboke razlike u načinu upravljanja, učinkovitosti, sigurnosti i fleksibilnosti radnih procesa. Tradicionalni viličar je u potpunosti ovisan o ljudskom operateru, čija vještina, iskustvo i koncentracija izravno definiraju produktivnost i sigurnost skladišta. Operater ručno kontrolira kretanje vozila, podizanje jarbola, naginjanje vilica i ubadanje u palete. Ljudska sposobnost brze prilagodbe nestandardnim situacijama i vizualna procjena okoline najveća su prednost klasičnih viličara. Međutim, ljudi su podložni umoru, ozljedama na radu, fluktuaciji i bolovanjima, što otežava planiranje operacija u neprekidnom 24-satnom režimu rada.
+
+Autonomni viličari zamjenjuju ljudske aktivnosti integriranim računalnim i senzorskim sustavom koji omogućuje samostalno obavljanje zadataka transporta, slaganja i preuzimanja tereta. Značajna karakteristika suvremenih autonomnih viličara je mogućnost dvostrukog načina rada (engl. \textit{dual-mode operation}). Opremljeni su standardnom kabinom i komandama, što omogućuje da u izvanrednim okolnostima (npr. kvar senzora, oštećena paleta ili nestandardan teret) operater preuzme ručno upravljanje.
+
+\subsection{Razine autonomije u intralogistici}
+Uvođenje autonomije u intralogistička vozila može se kategorizirati kroz razine autonomije, što predstavlja izravnu analogiju s klasifikacijama koje se primjenjuju u cestovnim autonomnim vozilima (SAE standard J3016). Ove razine se kreću od potpuno ručnih do potpuno autonomnih kolaborativnih sustava:
+
+\subsubsection{Razina 0: Ručno upravljanje}
+Na ovoj razini operater u potpunosti kontrolira vozilo. Nema nikakve računalne asistencije pri vožnji ili manipulaciji teretom. Svi pokreti upravljača, gasa, kočnice i hidrauličkog sustava jarbola ovise isključivo o fizičkim komandama vozača.
+
+\subsubsection{Razina 1: Asistirano upravljanje}
+Uvođenje jednostavnih sustava pomoći vozaču. Primjerice, viličar može posjedovati senzore koji automatski smanjuju brzinu kretanja u zavojima kako bi se spriječilo prevrtanje, ili sustave koji ograničavaju visinu dizanja ako masa tereta premašuje sigurne granice. Međutim, čovjek i dalje donosi sve odluke i izravno upravlja vozilom.
+
+\subsubsection{Razina 2: Djelomična automatizacija}
+Vozilo može samostalno pratiti fizikalno određenu liniju na podu skladišta (magnetsku ili induktivnu) i kontrolirati brzinu kretanja te zaustavljanje, no operater mora ručno obaviti složene zadatke poput ubadanja, podizanja i odlaganja paleta na police regala.
+
+\subsubsection{Razina 3: Uvjetna autonomija}
+Viličar izvršava složene zadatke autonomno na zadanim rutama, što uključuje vožnju, prepoznavanje paleta i slaganje na police. Međutim, sustav zahtijeva stalnu prisutnost ili nadzor operatera koji mora biti spreman preuzeti kontrolu u roku od nekoliko sekundi ako sustav javi pogrešku ili se susretne s preprekom koju ne može zaobići.
+
+\subsubsection{Razina 4: Visoka autonomija}
+Vozilo radi potpuno samostalno u zadanim radnim zonama (npr. visokoregalno skladište ili proizvodna linija). Komunicira s ostalim vozilima u floti i upravljačkim softverom. Prisutnost operatera na samom viličaru nije potrebna. Sustav je sposoban samostalno riješiti većinu uobičajenih konflikata i prepreka, a u slučaju nepoznatih i kritičnih situacija zaustavlja se na siguran način te šalje poziv za pomoć operateru u kontrolnoj sobi.
+
+\subsubsection{Razina 5: Potpuna autonomija}
+Vozila djeluju u potpuno dinamičnom okruženju, bez definiranih radnih zona. Flota samostalno raspodjeljuje zadatke i optimizira rute, rješava kompleksne prostorne konflikte i surađuje s drugim strojevima i ljudima bez potrebe za ljudskim nadzorom. Vozilo je sposobno raditi u nepredviđenim uvjetima jednako dobro ili bolje od prosječnog ljudskog vozača.
+
+\subsection{Tehnička arhitektura autonomnog viličara}
+Kako bi se standardno industrijsko vozilo pretvorilo u autonomni viličar, potrebne su značajne hardverske i softverske preinake. Fizička arhitektura autonomnog viličara sastoji se od nekoliko ključnih podsustava:
+\begin{enumerate}
+  \item \textbf{Sustav pogona i upravljanja (Drive and Steer-by-Wire):} Mehaničke veze upravljača i kočnice zamjenjuju se elektro-hidrauličkim ili elektromotornim aktuatorima. Upravljanje se vrši slanjem električnih signala s računala viličara na koračne ili servo motore koji zakreću pogonski kotač.
+2. **Sustav upravljanja jarbolom (Lift-by-Wire):** Ručni hidraulički ventili zamjenjuju se proporcionalnim elektromagnetskim ventilima. To omogućuje računalu da precizno dozira protok ulja u hidrauličkim cilindrima, čime se postiže glatko i točno podizanje vilica na visine koje mogu prelaziti 10 metara.
+3. \textbf{Interna komunikacijska sabirnica (CAN bus):} Svi senzori, aktuatori i kontroleri na viličaru povezani su putem brze i robusne industrijske mreže (najčešće CANOpen ili standardni CAN bus). To omogućuje slanje naredbi i povratnih informacija o stanju vozila u milisekundnim intervalima.
+4. \textbf{Središnje računalo (Vehicle Controller):} Industrijsko računalo visoke pouzdanosti koje vrti operativni sustav u realnom vremenu (RTOS). Na njemu se izvršavaju algoritmi za lokalizaciju, planiranje gibanja, praćenje zadanih putanja i obradu sigurnosnih signala.
+\end{enumerate}
+
+U tablici \ref{tab:usporedba} prikazana je detaljna usporedba klasičnih viličara, tradicionalnih AGV sustava i suvremenih autonomnih viličara (AMR).
+
+\begin{table}[h]
+\centering
+\caption{Usporedba karakteristika klasičnih viličara, AGV-ova i autonomnih viličara}
+\label{tab:usporedba}
+\begin{tabularx}{\textwidth}{|l|X|X|X|}
+\hline
+\textbf{Karakteristika} & \textbf{Klasični viličar} & \textbf{AGV (Klasični)} & \textbf{Autonomni viličar (AMR)} \\ \hline
+\textbf{Upravljanje} & Ljudski operater & Automatsko (fiksne rute) & Autonomno (dinamičke rute) \\ \hline
+\textbf{Navigacija} & Vizualna (čovjek) & Induktivna žica, magnetska traka, reflektori & Prirodna navigacija (SLAM, LiDAR, 3D kamere) \\ \hline
+\textbf{Izbjegavanje prepreka} & Reakcija vozača & Zaustavljanje ispred prepreke i čekanje & Dinamičko zaobilaženje i rekalkulacija rute \\ \hline
+\textbf{Fleksibilnost} & Ograničena ljudskim resursima & Niska (građevinske izmjene za promjenu rute) & Izuzetno visoka (softverska promjena mape) \\ \hline
+\textbf{Infrastruktura} & Standardne oznake & Fizički vodiči u podu ili reflektori na zidovima & Nije potrebna fizička infrastruktura, stabilan Wi-Fi/5G \\ \hline
+\textbf{Manipulacija teretom} & Ovisi o vještini operatera & Zahtijeva visoku preciznost pozicije palete & Aktivno prepoznavanje paleta pomoću 3D vizije \\ \hline
+\end{tabularx}
+\end{table}

@@ -1,0 +1,85 @@
+\section{NAVIGACIJSKE TEHNOLOGIJE}
+Kako bi se autonomni viličar mogao kretati skladištem i precizno manipulirati teretom, on mora posjedovati sposobnost precizne lokalizacije (određivanje vlastitog položaja $x, y$ i orijentacije $\theta$ u prostoru) te navigacije. Suvremeni sustavi odbacuju fizikalne vodiče u korist prirodne navigacije.
+
+\subsection{SLAM (Simultaneous Localization and Mapping)}
+% TODO: Umetnuti sliku arhitekture SLAM sustava i procesa lokalizacije (grafikoni skeniranja okoliša).
+SLAM je ključni algoritamski koncept koji omogućuje vozilu da uđe u potpuno nepoznat prostor, izgradi njegovu dvodimenzionalnu ili trodimenzionalnu kartu pomoću senzora te se istovremeno lokalizira unutar te karte. U intralogistici se najčešće koristi \textbf{LiDAR SLAM} koji se oslanja na laserska skeniranja okoline. Tijekom prve vožnje (koju operater obavlja ručno), viličar bilježi položaje fiksnih objekata poput zidova, stupova i regalnih stupova. U kasnijem autonomnom radu, algoritam uspoređuje stvarna skeniranja u realnom vremenu s prethodno snimljenom kartom skladišta.
+
+Matematički, SLAM se može formulirati kao problem procjene stanja u kojem želimo odrediti zajedničku gustoću vjerojatnosti položaja vozila $\mathbf{x}_{1:k}$ i karte okoliša $\mathbf{m}$ na temelju povijesti kontrolnih ulaza $\mathbf{u}_{1:k}$ i mjerenja senzora $\mathbf{z}_{1:k}$:
+\begin{equation}
+    p(\mathbf{x}_{1:k}, \mathbf{m} \mid \mathbf{z}_{1:k}, \mathbf{u}_{1:k})
+\end{equation}
+U \textit{EKF-SLAM-u \cite{slam}} (Extended Kalman Filter SLAM), stanje sustava se predstavlja jedinstvenim vektorom stanja $\mathbf{x}_k$ koji sadrži trenutnu pozu viličara i koordinate svih prepoznatih orijentira (engl. \textit{landmarks}) u skladištu:
+\begin{equation}
+    \mathbf{x}_k = [x_k, y_k, \theta_k, m_{1,x}, m_{1,y}, \dots, m_{n,x}, m_{n,y}]^T
+\end{equation}
+Sustav održava i matricu kovarijance pogreške $\mathbf{P}_k$ koja opisuje nesigurnost procjene i korelaciju između poze vozila i položaja orijentira. Glavni izazov EKF-SLAM-a je kvadratni rast računalne složenosti ($O(n^2)$) s povećanjem broja orijentira $n$, zbog čega se u velikim skladištima koriste naprednije metode poput \textit{Graph-SLAM-a}.
+
+Graph-SLAM predstavlja problem kao faktor-graf u kojem su čvorovi poze viličara u različitim trenucima, a bridovi predstavljaju prostorna ograničenja dobivena iz odometrije ili preklapanja laserskih skeniranja (engl. \textit{loop closure}). Optimizacija grafa se svodi na minimizaciju kvadratne pogreške svih ograničenja:
+\begin{equation}
+    \mathbf{x}^* = \arg\min_{\mathbf{x}} \sum_{i} e_i(\mathbf{x})^T \mathbf{\Omega}_i e_i(\mathbf{x})
+\end{equation}
+gdje je $e_i(\mathbf{x})$ funkcija pogreške ograničenja $i$, a $\mathbf{\Omega}_i$ je matrica informacija (inverzija matrice kovarijance šuma mjerenja) koja definira težinu tog ograničenja.
+
+Za precizno podudaranje dvaju uzastopnih laserskih skeniranja bez eksplicitnog izdvajanja orijentira koristi se algoritam **ICP** (Iterative Closest Point). Algoritam iterativno pronalazi najbliže točke između referentnog oblaka točaka i trenutnog skeniranja te računa transformaciju (rotaciju $\mathbf{R}$ i translaciju $\mathbf{t}$) koja minimizira srednju kvadratnu udaljenost među njima:
+\begin{equation}
+    E(\mathbf{R}, \mathbf{t}) = \sum_{j=1}^{N} \| \mathbf{p}_j - (\mathbf{R} \mathbf{q}_j + \mathbf{t}) \|^2
+\end{equation}
+gdje su $\mathbf{p}_j$ i $\mathbf{q}_j$ korespondentne točke u dvama skeniranjima.
+
+\subsection{LiDAR tehnologija}
+LiDAR (Light Detection and Ranging) je primarni senzor za lokalizaciju i navigaciju. Radi na principu mjerenja vremena povrata emitiranog laserskog pulsa (Time-of-Flight). Rotirajući laserski snop omogućuje skeniranje okoliša visoke frekvencije. 
+\begin{itemize}
+    \item \textbf{2D LiDAR}: Skenira okolinu u jednoj horizontalnoj ravnini. Koristi se za osnovnu lokalizaciju (uspoređivanjem visine stupova i zidova s kartom) i detekciju prepreka na visini šasije viličara.
+    \item \textbf{3D LiDAR}: Emitira više laserskih zraka po vertikalnoj osi stvarajući bogat trodimenzionalni oblak točaka (engl. \textit{Point Cloud}). Omogućuje detekciju složenih prepreka koje vise sa stropova ili se nalaze iznad vidnog polja 2D skenera (npr. poluotvorena vrata, cijevi, dizalice) te pruža podatke za naprednu navigaciju u nestrukturiranim prostorima.
+\end{itemize}
+
+\subsection{Računalni vid (Computer Vision) u manipulaciji teretom}
+Iako je LiDAR izvrstan za lokalizaciju, on ne pruža informacije o semantičkom kontekstu objekata u prostoru. Računalni vid koristi 3D kamere (stereo kamere ili Time-of-Flight kamere) i duboke neuronske mreže kako bi viličaru pružio mogućnost prepoznavanja oblika. 
+
+Ključna primjena računalnog vida kod autonomnih viličara je \textbf{precizna manipulacija paletama} (engl. \textit{Fork Pocket Detection}). Kada viličar priđe paleti, kamere smještene na nosaču vilica skeniraju paletu. Algoritmi računalnog vida (npr. detekcija rubova pomoću Sobelovog ili Cannyjevog operatora, Houghova transformacija za pronalaženje pravocrtnih linija ili konvolucijske neuronske mreže poput YOLO modela \cite{yolo}) prepoznaju točne dimenzije i 3D koordinate džepova na paleti namijenjenih za ubadanje vilica. Na temelju tih podataka vrši se korekcija položaja vilica u realnom vremenu, što omogućuje uspješno ubadanje čak i ako je paleta nagnuta ili pomaknuta za nekoliko centimetara u odnosu na idealni položaj.
+
+\subsection{Matematički model fuzije senzora (Sensor Fusion)}
+Kako bi se kompenzirali nedostatci pojedinačnih senzora (npr. akumulacija pogreške odometrije zbog proklizavanja kotača, ili gubitak orijentacije LiDAR-a u dugim hodnicima bez prepreka), primjenjuje se fuzija senzora. Najčešće se koristi \textbf{Prošireni Kalmanov filtar \cite{sensorfusion}} (EKF).
+
+EKF radi u dva koraka: predikcija (engl. \textit{prediction}) i ažuriranje (engl. \textit{update}). U koraku predikcije koristi se kinematički model kretanja viličara kako bi se predvidjelo novo stanje na temelju podataka s odometrije i inercijalne mjerne jedinice (IMU):
+\begin{align}
+    \mathbf{\hat{x}}_{k \mid k-1} &= f(\mathbf{\hat{x}}_{k-1 \mid k-1}, \mathbf{u}_k) \\
+    \mathbf{P}_{k \mid k-1} &= \mathbf{F}_k \mathbf{P}_{k-1 \mid k-1} \mathbf{F}_k^T + \mathbf{Q}_k
+\end{align}
+gdje su:
+\begin{itemize}
+    \item $\mathbf{\hat{x}}_{k \mid k-1}$ — Predviđeni vektor stanja u trenutku $k$ na temelju informacija do trenutka $k-1$. Vektor stanja obično sadrži pozu viličara: $\mathbf{x} = [x, y, \theta, v_x, v_y, \omega]^T$.
+    \item $f(\cdot)$ — Nelinearna funkcija prijelaza stanja koja opisuje fiziku kretanja vozila (npr. diferencijalni pogon ili Tricycle model upravljanja).
+    \item $\mathbf{u}_k$ — Vektor upravljačkih ulaza (npr. izmjerena brzina vrtnje kotača i kut zakretanja).
+    \item $\mathbf{P}_{k \mid k-1}$ — Predviđena matrica kovarijance pogreške procjene stanja.
+    \item $\mathbf{F}_k$ — Jakobijeva matrica (parcijalne derivacije) funkcije prijelaza stanja $f$ po stanju $\mathbf{x}$, evaluirana u točki $\mathbf{\hat{x}}_{k-1 \mid k-1}$:
+    \begin{equation}
+        \mathbf{F}_k = \left. \frac{\partial f}{\partial \mathbf{x}} \right|_{\mathbf{\hat{x}}_{k-1 \mid k-1}, \mathbf{u}_k}
+    \end{equation}
+    \item $\mathbf{Q}_k$ — Matrica kovarijance šuma procesa (opisuje nesigurnost modela kretanja, npr. proklizavanje kotača ili neravnine na podu).
+\end{itemize}
+
+U koraku ažuriranja, predviđeno stanje se korigira kada stignu apsolutna mjerenja sa senzora visoke točnosti (npr. LiDAR-a ili kamera koji prepoznaju fiksne točke u prostoru):
+\begin{align}
+    \mathbf{y}_k &= \mathbf{z}_k - h(\mathbf{\hat{x}}_{k \mid k-1}) \\
+    \mathbf{S}_k &= \mathbf{H}_k \mathbf{P}_{k \mid k-1} \mathbf{H}_k^T + \mathbf{R}_k \\
+    \mathbf{K}_k &= \mathbf{P}_{k \mid k-1} \mathbf{H}_k^T \mathbf{S}_k^{-1} \\
+    \mathbf{\hat{x}}_{k \mid k} &= \mathbf{\hat{x}}_{k \mid k-1} + \mathbf{K}_k \mathbf{y}_k \\
+    \mathbf{P}_{k \mid k} &= (\mathbf{I} - \mathbf{K}_k \mathbf{H}_k) \mathbf{P}_{k \mid k-1}
+\end{align}
+gdje su dodatni parametri definirani kao:
+\begin{itemize}
+    \item $\mathbf{z}_k$ — Vektor stvarnih mjerenja sa senzora (npr. izmjerene udaljenosti do prepoznatih stupova s LiDAR-a).
+    \item $h(\cdot)$ — Nelinearna funkcija mjerenja koja povezuje vektor stanja s očekivanim mjerenjem senzora.
+    \item $\mathbf{y}_k$ — Rezidual mjerenja (engl. \textit{measurement residual} ili \textit{innovation}), odnosno razlika između stvarnog i očekivanog mjerenja.
+    \item $\mathbf{S}_k$ — Kovarijanca reziduala mjerenja.
+    \item $\mathbf{H}_k$ — Jakobijeva matrica funkcije mjerenja $h$ po stanju $\mathbf{x}$, evaluirana u točki $\mathbf{\hat{x}}_{k \mid k-1}$:
+    \begin{equation}
+        \mathbf{H}_k = \left. \frac{\partial h}{\partial \mathbf{x}} \right|_{\mathbf{\hat{x}}_{k \mid k-1}}
+    \end{equation}
+    \item $\mathbf{R}_k$ — Matrica kovarijance šuma mjerenja (definira preciznost samog senzora; manji šum znači veću težinu mjerenja).
+    \item $\mathbf{K}_k$ — Kalmanovo pojačanje (engl. \textit{Kalman Gain}) koje određuje u kojoj mjeri će novo mjerenje korigirati predviđanje modela.
+    \item $\mathbf{I}$ — Jedinična matrica odgovarajućih dimenzija.
+\end{itemize}
+Fuzijom visoke frekvencije odometrije (koja je lokalno konzistentna, ali dugoročno drifta) i niže frekvencije LiDAR mjerenja (koja su globalno točna), EKF osigurava stabilnu, točnu i robusnu lokalizaciju u realnom vremenu.

@@ -1,0 +1,52 @@
+\section{SIGURNOSNI SUSTAVI}
+Sigurnost je primarni tehnički i operativni izazov pri uvođenju autonomnih vozila u prostore u kojima rade ljudi. S obzirom na to da se autonomni viličari kreću s teretima teškim nekoliko tona, svaka pogreška u radu može dovesti do teških ozljeda radnika ili materijalne štete. Zbog toga su ovi sustavi podvrgnuti najstrožim industrijskim standardima.
+
+\subsection{Standard ISO 3691-4 \cite{iso3691} i funkcijska sigurnost}
+Glavni međunarodni standard koji definira sigurnosne zahtjeve za projektiranje i rad autonomnih industrijskih vozila je \textbf{ISO 3691-4 \cite{iso3691}} (\textit{Industrial trucks — Safety requirements and verification — Part 4: Driverless industrial trucks, variable-reach trucks, and carrier-trucks}). Ova norma propisuje jasna pravila za funkcijsku sigurnost električnih i elektroničkih sustava upravljanja. Prema standardu ISO 3691-4 \cite{iso3691}, svi sigurnosno relevantni dijelovi sustava upravljanja (SRP/CS), a posebno sustavi za detekciju osoba, kontrolu brzine, smjera kretanja i kočenja, moraju zadovoljavati razinu izvedbe \textbf{PLd} (Performance Level d) u skladu s normom \textbf{ISO 13849-1 \cite{iso13849}}.
+
+Norma ISO 13849-1 \cite{iso13849} definira razine izvedbe (PL — engl. \textit{Performance Level}) od 'a' (najniža) do 'e' (najviša), koje predstavljaju sposobnost sigurnosnih dijelova sustava upravljanja da izvršavaju sigurnosne funkcije pod predviđenim uvjetima. Postizanje razine PLd zahtijeva:
+\begin{itemize}
+    \item \textbf{Redundantnu arhitekturu (Kategorija 3 ili 4):} Sigurnosni krugovi moraju biti dvo-kanalni. Ako dođe do kvara na jednom kanalu, drugi kanal mora osigurati sigurno zaustavljanje vozila.
+    \item \textbf{Visoku dijagnostičku pokrivenost (DC — engl. \textit{Diagnostic Coverage}):} Sustav mora biti sposoban detektirati više od 90\% unutarnjih hardverskih kvarova putem stalnog samotestiranja.
+    \text{\textbf{Visoku pouzdanost komponenti (MTTFd):}} Srednje vrijeme do opasnog kvara pojedinačnih komponenti mora biti klasificirano kao "visoko" (obično preko 30 godina).
+    \item \textbf{Izbjegavanje zajedničkih uzroka kvara (CCF — engl. \textit{Common Cause Failure}):} Projektiranje sustava tako da jedan vanjski događaj (npr. pad napona ili elektromagnetska smetnja) ne može istovremeno onesposobiti oba sigurnosna kanala.
+\end{itemize}
+
+\subsection{Senzorska sigurnosna arhitektura}
+Autonomni viličari koriste višeslojnu senzorsku arhitekturu kako bi osigurali rad bez nesreća:
+\begin{enumerate}
+    \item \textbf{Sigurnosni laserski skeneri (Safety Laser Scanners):} Postavljaju se u podnožju viličara kako bi skenirali prostor u ravnini tla (obično s kutom pokrivanja od $270^\circ$ ili $360^\circ$ pomoću dva dijagonalno postavljena senzora). Ovi skeneri imaju definirana dva tipa zaštitnih polja:
+    \begin{itemize}
+        \item \textbf{Zona upozorenja (Warning Zone):} Vanjski radijus u kojem skener detektira prepreku ili osobu, što uzrokuje usporavanje viličara i aktivaciju zvučnog ili svjetlosnog alarma.
+        \item \textbf{Zona zaustavljanja (Stop Zone):} Unutarnji sigurnosni radijus. Ako bilo koja prepreka uđe u ovu zonu, kočioni sustav se trenutačno aktivira i viličar se zaustavlja prije nego što dođe do fizičkog kontakta. Ove su zone dinamičke te se automatski prilagođavaju (šire ili sužavaju) ovisno o brzini kretanja vozila i kutu zakretanja upravljača.
+    \end{itemize}
+    \item \textbf{Taktilni branici (Bumpers):} Mehanički branici osjetljivi na pritisak koji služe kao sekundarna zaštita. Ako beskontaktni senzori ne uspiju detektirati objekt (npr. zbog zaprljanosti leća lasera), fizički pritisak na branik odmah prekida strujni krug i aktivira mehaničku kočnicu.
+    \item \textbf{Vizualni i zvučni alarmi:} Vozila su opremljena zvučnim signalima, sirenama te usmjerenim plavim svjetlima (engl. \textit{Blue Spot}) koja projiciraju plavu točku na tlo nekoliko metara ispred ili iza vozila. To omogućuje pješacima u skladištu da uoče približavanje viličara iza ugla prije nego što ga fizički vide.
+    \item \textbf{Tipke za hitno zaustavljanje (Emergency Stop):} Crvene gljivaste tipke montirane na lako dostupnim vanjskim mjestima šasije viličara, koje svakom radniku omogućuju trenutno mehaničko zaustavljanje stroja u slučaju opasnosti.
+\end{enumerate}
+
+\subsection{Matematički model proračuna sigurnosnih zona}
+Širina i duljina sigurnosnih zona (posebno zone zaustavljanja) nisu proizvoljne, već se moraju točno izračunati za svako vozilo i radni uvjet. Formula za proračun minimalne duljine zone zaustavljanja $S$ u smjeru kretanja izražava se kao:
+\begin{equation}
+    S = v \cdot t_{\text{odziv}} + \frac{v^2}{2 \cdot g \cdot \mu \cdot \cos\alpha} + d_{\text{koč}} + d_{\text{sig}}
+\end{equation}
+gdje su pojedinačni utjecajni parametri definirani na sljedeći način:
+\begin{itemize}
+    \item $v$ [m/s] — Trenutna linearna brzina viličara.
+    \item $t_{\text{odziv}}$ [s] — Ukupno vrijeme odziva sigurnosnog sustava. Obuhvaća vrijeme detekcije laserskog skenera (obično 80 ms), vrijeme procesiranja sigurnosnog PLC kontrolera (oko 30 ms) i vrijeme odziva hidrauličkog kočionog ventila (oko 50-100 ms). Standardna vrijednost iznosi $t_{\text{odziv}} \approx 0.2$ s.
+    \item $g$ [$\text{m/s}^2$] — Gravitacijsko ubrzanje ($g \approx 9.81 \ \text{m/s}^2$).
+    \item $\mu$ [/] — Koeficijent trenja (prijanjanja) između pogonskog/kočionog kotača i poda skladišta. Za suhi i čisti industrijski beton iznosi $\mu \approx 0.5 - 0.6$, dok za vlažne, prašnjave ili zamašćene podove može pasti na $\mu \approx 0.2 - 0.3$.
+    \item $\alpha$ [$^\circ$] — Nagib terena (uzbrdica ili nizbrdica). U ravnim skladištima $\alpha = 0$, pa je $\cos\alpha = 1$.
+    \item $d_{\text{koč}}$ [m] — Mehanički prazan hod kočionog sustava (npr. zračnost između kočionih obloga i diska).
+    \item $d_{\text{sig}}$ [m] — Dodatni sigurnosni razmak (engl. \textit{safety margin}) koji propisuje proizvođač radi kompenzacije trošenja guma i tolerancije mjerenja senzora. Tipično iznosi $d_{\text{sig}} \approx 0.1 - 0.3$ m.
+\end{itemize}
+
+Iz jednadžbe (3.1) vidljivo je da zaustavni put kvadratno raste s porastom brzine viličara. Ako se viličar kreće brzinom od $v = 1.5$ m/s na suhom podu ($\mu = 0.5$) s ukupnim vremenom odziva od $0.2$ s, zaustavni put bez nagiba iznosi:
+\begin{equation*}
+    S = 1.5 \cdot 0.2 + \frac{1.5^2}{2 \cdot 9.81 \cdot 0.5} + 0.05 + 0.2 = 0.3 + 0.229 + 0.05 + 0.2 = 0.779\text{ m}
+\end{equation*}
+U slučaju da je pod zamašćen i koeficijent trenja padne na $\mu = 0.2$, potreban zaustavni put se drastično povećava:
+\begin{equation*}
+    S = 0.3 + \frac{2.25}{3.924} + 0.05 + 0.2 = 0.3 + 0.573 + 0.05 + 0.2 = 1.123\text{ m}
+\end{equation*}
+Zbog toga moderni autonomni viličari integriraju sustave za dinamičku prilagodbu zona koji stalno očitavaju stanje podloge ili preventivno ograničavaju maksimalnu brzinu kretanja u zonama gdje se sumnja na lošije prianjanje kotača.
