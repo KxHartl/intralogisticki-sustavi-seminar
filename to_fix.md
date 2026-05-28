@@ -14,7 +14,7 @@ Općenita pravila
 - Što dodati: kratak paragraf s 2–3 činjenice (statistika nesreća u skladištima, rast e-trgovine i potreba za 24/7 radom).
 - Predloženi tekst (copy/paste):
 
-  "Prema podacima [izvor], skladišni incidenti povezani s radom viličara čine X% svih ozljeda u logistici. Rast elektroničke trgovine od Y% godišnje povećava zahtjeve za operativnom dostupnošću i točnošću isporuke; zato automatizacija intralogistike postaje ključna kako bi se osigurale 24/7 operacije i smanjile pogreške u inventaru." 
+  "Prema podacima [izvor], skladišni incidenti povezani s radom viličara čine X% svih ozljeda u logistici. Rast elektroničke trgovine od Y% godišnje povećava zahtjeve za operativnom dostupnošću i točnošću isporuke; zato automatizacija intralogistike postaje ključna kako bi se osigurale 24/7 operacije i smanjile pogreške u inventaru."
 
 - Označiti referencu kao `\cite{dzs,ecommerce_report}` i dodati bib unos u `docs/main-blx.bib`.
 

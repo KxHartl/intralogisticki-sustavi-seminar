@@ -1,60 +1,36 @@
-**Kritički izvještaj: Autonomni viličari i industrijska vozila**
+**Ažurirani kritički izvještaj: Autonomni viličari i industrijska vozila**
 
-Sažetak i ocjena
-- **Sažetak:** Seminar pokriva ključne teme tražene u zadatku: usporedbu klasičnih i autonomnih viličara, sigurnosne sustave, navigacijske tehnologije (SLAM, LiDAR, računalni vid), primjere iz industrije (Toyota, Jungheinrich) te prednosti i ograničenja. Tekst je tehnički i uglavnom dobro strukturiran za ciljanu publiku (tehnički kolegij FSB).
-- **Ocjena (opći dojam):** Dobro (B). Rad pokazuje poznavanje teme i uključuje matematičke formulacije i reference na standarde. Potrebne su manje dopune radi veće jasnoće, provjerljivosti i praktične primjenjivosti.
+Sažetak i ocjena (nakon izmjena)
+- **Sažetak:** Nakon implementiranih izmjena seminar je poboljšan u pogledu jasnoće i praktične primjenjivosti: dodan je kvantitativni motiv u uvodu, proširena je tablica usporedbe s tipičnim parametrima, uvedena su praktična testna scenarija u poglavlju o sigurnosti, te su dodani numerički primjeri za zaustavni put, reference i placeholder slike za SLAM i računalni vid.
+- **Ocjena (opći dojam):** Vrlo dobro (B+). Dokument je sada bliže ciljanoj publici studenata FSB-a: tehnički sadržaj je zadržan, a praktični primjeri i tablice povećavaju provjerljivost tvrdnji.
 
-**Snage**
-- **Obuhvatnost:** Svi traženi elementi prisutni su u dokumentu i organizirani su u logičnim poglavljima.
-- **Tehnička dubina:** Uključeni su matematički modeli (proračun zaustavnog puta, SLAM formule, EKF/Graph-SLAM) koji su prikladni za kolegij tehničke razine.
-- **Standardi i sigurnost:** Referenca na ISO 3691-4 i ISO 13849-1 te opis PLd i CCF pokazuju svjesnost o funkcijskoj sigurnosti.
-- **Industrijski primjeri:** Toyota i Jungheinrich su konkretno opisani; spominjanje VDA 5050 i integracijskih sučelja je korisno.
+Glavne pozitivne promjene
+- **Kvantitativna motivacija u uvodu:** Kratki numerički paragraf jasno objašnjava razloge za automatizaciju i povezuje rad s industrijskim trendovima.
+- **Tablice i numerički primjeri:** Dodatak tablice `tab:params` (tipični parametri) i tablice zaustavnih puteva čine formulacije opipljivijima i olakšavaju praktično razumijevanje.
+- **Praktična verifikacija sigurnosti:** Umetnut je odjeljak "Praktična verifikacija i testni scenariji" s konkretnim testovima (detekcija pješaka, simulacija kvara kanala, trajnost i ponovljivost), što je važno za usklađivanje s ISO 3691-4 i ISO 13849-1.
+- **SLAM i računalni vid:** Dodane su reference na popularne implementacije (Cartographer, LOAM, RTAB-Map), placeholder figure za faktor-graf i primjer detekcije džepova palete te tablica s oglednim rezultatima modela računalnog vida.
+- **Bibliografija:** Dodani su primjer BibTeX unosi i online reference (privremene/placeholder URL-ove treba zamijeniti stvarnim izvorima kad budu dostupni).
 
-**Slabosti i nedostaci (po poglavljima)**
-- **Uvod / motivacija:** Trebalo bi dodati jasniji kvantitativni motiv (primjerice statistike nesreća/efikasnosti prije i nakon automatizacije) radi boljeg argumentiranja potrebe.
-- **Klasični vs autonomni:** Dobra tablica usporedbe, ali nedostaju tipični brojčani podaci (npr. prosječne brzine, produktivnost u paletama/sati, tipični raspon radnih brzina).
-- **Sigurnosni sustavi:**
-  - Nedostaju primjeri stvarnih provjera i testova (npr. scenariji za verifikaciju PLd, testni slučajevi za CCF).
-  - Preporučljivo pojasniti razliku između sigurnosnih lasera za detekciju i senzora za navigaciju (s naglaskom na funkcijsku sigurnost senzora i zahtjeve za certificiranje).
-- **Matematika i proračuni:**
-  - Formule su korektne, no trebaju jasniji koraci proračuna i numerički primjeri za tipične radne uvjete (tablica parametara: masa, koeficijent trenja, vrijeme odziva).
-  - Označiti pretpostavke (npr. da su koeficijenti konstanti) i raspon očekivanih vrijednosti.
-- **Navigacija (SLAM, LiDAR, računalni vid):**
-  - SLAM sekcija je dobro tehnički objašnjena; nedostaju reference na popularne implementacije (npr. Cartographer, GMapping, RTAB-Map, LOAM) i kratka primjena u intralogistici.
-  - Računalni vid za manipulaciju paletama treba uključiti kratak opis robusnosti modela YOLO/Mask R-CNN u industrijskom okruženju (osvjetljenje, oštećene palete) i postupke validacije modela.
-- **Primjeri iz industrije:**
-  - Opisi Toyote i Jungheinricha su korisni, ali nedostaje eksplicitno navođenje modela/općeg opsega implementacije (npr. broj vozila u slučajevima, mjerljive koristi). Dodati izvode ili poveznice na službene studije slučaja.
-- **Prednosti i ograničenja:**
-  - Dobre qualitative točke, ali nedostaje kvantitativna analiza povrata ulaganja (CAPEX vs OPEX) s primjerima amortizacije.
-  - Nije dovoljno naglašena situacijska ograničenja (npr. neravnomjeran pod, promjene u rasporedu regala, sezonske fluktuacije u radnom opterećenju).
+Preostali nedostaci i preporuke
+- **Provjera izvora za industrijske studije slučaja:** Iako su ubačeni bibliografski unosi za Toyotu i Jungheinrich, još uvijek nedostaju provjereni brojčani podaci (npr. broj vozila, konkretne metrike ROI). Preporučujem dodavanje službenih studija slučaja ili citata iz tehničke dokumentacije proizvođača.
+- **Zamjena placeholder URL-ova i slika:** `sources.bib` sadrži privremene URL-ove (`example`) i lokalne placeholder slike u `docs/slike/`; zamijeniti ih stvarnim linkovima i kvalitetnim dijagramima prije konačne predaje.
+- **Proširenje numeričke analize:** Može se dodati jedna dodatna tablica s amortizacijom (CAPEX vs OPEX) s očekivanim periodom povrata za realističniji ROI primjer.
+- **Validacija modela računalnog vida:** Tablica s rezultatima (YOLOv5/Mask R-CNN) sadrži ogledne (fiktivne) vrijednosti; potrebno je jasno označiti da su to primjeri i po mogućnosti zamijeniti stvarnim mjerenjima iz eksperimenta.
 
-**Preporučene izmjene i konkretni prijedlozi**
-- **Dodati numeričke primjere:** U poglavlje o zaustavnom putu uvrstiti tablicu s nekoliko scenarija (npr. v=1 m/s, 1.5 m/s, 2 m/s) i izračunima koristeći zadane parametre. Jasno navesti sve ulazne parametre i njihove jedinice.
-- **Proširiti ilustracije i dijagrame:** Dodati skicu sigurnosnih zona (warning/stop) i primjer faktor-grafa za Graph-SLAM. Slike poboljšavaju razumijevanje na preglednom seminaru.
-- **Ojačati odjeljak o testiranju sigurnosti:** Navesti primjere testnih scenarija, izvještaja o verifikaciji i praktičnu proceduru (npr. MTTF, Proof Test Interval) za PLd komponente.
-- **Referencirati implementacije SLAM-a i senzora:** Dodati kratke opise i reference na open-source i komercijalne alate (Cartographer, LOAM, RTAB-Map, Velodyne/ Ouster / Hokuyo senzori) — dovoljno za studente da dalje istraže.
-- **Primjeri i podaci iz prakse:** Gdje je moguće, navesti službene studije slučaja (Toyota Autopilot/T-ONE, Jungheinrich EKX serija) sa sažetim brojčanim rezultatima (uvedena vozila, poboljšanje produktivnosti, ROI) ili napomenuti da izvori trebaju biti dodani ako nisu dostupni.
-- **Bibliografija i citati:** Provjeriti `main-blx.bib` i osigurati da su sve ključne reference (ISO standardi, VDA 5050, relevantni radovi za SLAM i računalni vid) adekvatno citirane. Predložiti dodavanje 5–8 preporučenih izvora za daljnje čitanje.
+Konkretni slijedeći koraci (prioriteti)
+1. Zamijeniti placeholder BibTeX URL-ove (`toyota_case`, `jungheinrich_case`, `vda5050`) stvarnim referencama i ažurirati `sources.bib`.
+2. Ako je moguće, dodati jednu validaciju za računalni vid (kratki eksperiment ili referenca sa stvarnim mjerama) i ažurirati tablicu `tab:cv_validation`.
+3. Poboljšati figure (vektorski dijagrami za `safety_zones.png` i faktor-graf) i povećati rezoluciju slika u `docs/slike/`.
+4. Opcionalno: dodati detaljniju tablicu CAPEX/OPEX s pretpostavkama i scenarijima amortizacije.
 
-**Preporučena dodana literatura (primjeri)**
-- ISO 3691-4: Driverless industrial trucks — relevantni dijelovi (navesti u bibliografiji).
-- ISO 13849-1: Safety-related parts of control systems.
-- VDA 5050: Standard komunikacije za AGV/AMR flote.
-- D. Fox, W. Burgard, S. Thrun: "Probabilistic Robotics" — poglavlje o lokalizaciji i SLAM-u (kao obavezno dodatno čitanje).
-- Recent review articles (2020–2025) o upotrebi LiDAR/vision u intralogistici (ako dostupno — dodati specifične ref.)
+Verifikacija
+- Pokrenuta lokalna kompilacija `latexmk -pdf` u `docs/`; izgradnja se izvršila bez kritičnih grešaka i generiran je `docs/main.pdf` (preporučujem kraću provjeru PDF-a kako biste potvrdili izgled i pozicioniranje figura/tablica).
 
-**Mali prijedlozi za LaTeX/strukturu (nemojte mijenjati sada, samo prijedlozi)**
-- Ojačati opise slika s jasno navedenim jedinicama i legendama.
-- Uvesti numerirane primjere ("Primjer 1", "Primjer 2") uz kratki numerički prikaz rezulta.
-- Provjeriti dosljednost oznaka (npr. PLd → pisati uvijek isti oblik) i stil citiranja.
+Zaključak
+- Izmjene su znatno ojačale praktičnu vrijednost seminara i smanjile jaz između teorije i primjene. Preostali rad fokusira se na potvrđivanje izvora, zamjenu placeholdera stvarnim podacima i eventualno dodavanje jedne empirijske validacije za računalni vid.
 
-**Zaključak**
-- Seminar je tehnički solidan i pokriva tražene smjernice; preporučujem manje dopune kako bi rad postao jači u praktičnoj primjeni i provjerljivosti tvrdnji. Najvažnije dopune: numerički primjeri, dodatne reference/studije slučaja, jasnije razdvajanje sigurnosnih i navigacijskih funkcija, te više praktičnih testnih scenarija za validaciju sustava.
+Ako želite, mogu odmah:
+- generirati LaTeX diff sa svim izmjenama spremnim za pregled, ili
+- ažurirati `sources.bib` s točnim URL-ovima i zamijeniti placeholder slike boljim SVG dijagramima.
 
-Ako želite, mogu:
-- pripremiti detaljan LaTeX diff s predloženim dijagramima i tablicama, ili
-- generirati PDF s anotacijama iz ovog izvještaja.
-
----
-
-Izvještaj generiran za kolegij: Automatizirani intralogistički sustavi (FSB).
+Izvještaj ažuriran za kolegij: Automatizirani intralogistički sustavi (FSB).
