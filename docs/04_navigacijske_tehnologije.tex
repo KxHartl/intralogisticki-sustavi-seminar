@@ -12,7 +12,14 @@ Za postizanje visoke razine autonomije, viličari se oslanjaju na niz različiti
 \end{itemize}
 
 \subsection{SLAM (Simultaneous Localization and Mapping)}
-% TODO: Umetnuti sliku arhitekture SLAM sustava i procesa lokalizacije (grafikoni skeniranja okoliša).
+% TODO: Umetnuta slika arhitekture SLAM sustava
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{slike/graphslam_placeholder.png}
+\caption{Primjer faktor-grafa za Graph-SLAM \cite{slam}}
+\label{fig:graphslam}
+\end{figure}
+
 SLAM je ključni algoritamski koncept koji omogućuje vozilu da uđe u potpuno nepoznat prostor, izgradi njegovu dvodimenzionalnu ili trodimenzionalnu kartu pomoću senzora te se istovremeno lokalizira unutar te karte. U intralogistici se najčešće koristi \textbf{LiDAR SLAM} koji se oslanja na laserska skeniranja okoline. Tijekom prve vožnje (koju operater obavlja ručno), viličar bilježi položaje fiksnih objekata poput zidova, stupova i regalnih stupova. U kasnijem autonomnom radu, algoritam uspoređuje stvarna skeniranja u realnom vremenu s prethodno snimljenom kartom skladišta.
 
 Matematički, SLAM se može formulirati kao problem procjene stanja u kojem želimo odrediti zajedničku gustoću vjerojatnosti položaja vozila $\mathbf{x}_{1:k}$ i karte okoliša $\mathbf{m}$ na temelju povijesti kontrolnih ulaza $\mathbf{u}_{1:k}$ i mjerenja senzora $\mathbf{z}_{1:k}$:
@@ -37,6 +44,14 @@ Za precizno podudaranje dvaju uzastopnih laserskih skeniranja bez eksplicitnog i
 \end{equation}
 gdje su $\mathbf{p}_j$ i $\mathbf{q}_j$ korespondentne točke u dvama skeniranjima.
 
+% TODO: Dodane popularne implementacije SLAM-a
+U intralogističkoj praksi popularne su robusne open-source implementacije SLAM algoritama:
+\begin{itemize}
+    \item \textbf{Cartographer:} Googleov algoritam optimiziran za stvaranje 2D i 3D karata u realnom vremenu uz visoku pouzdanost i zatvaranje petlje (loop closure).
+    \item \textbf{LOAM (Lidar Odometry and Mapping):} Fokusiran na izdvajanje značajki (features) iz 3D LiDAR oblaka točaka za brzu odometriju s malim računskim opterećenjem.
+    \item \textbf{RTAB-Map (Real-Time Appearance-Based Mapping):} Vizualni i LiDAR SLAM pristup s naprednim upravljanjem memorijom za kreiranje golemih mapa na temelju RGB-D senzora i laserskih mjerenja.
+\end{itemize}
+
 \subsection{LiDAR tehnologija}
 LiDAR (Light Detection and Ranging) je primarni senzor za lokalizaciju i navigaciju. Radi na principu mjerenja vremena povrata emitiranog laserskog pulsa (Time-of-Flight). Rotirajući laserski snop omogućuje skeniranje okoliša visoke frekvencije. 
 \begin{itemize}
@@ -48,6 +63,30 @@ LiDAR (Light Detection and Ranging) je primarni senzor za lokalizaciju i navigac
 Iako je LiDAR izvrstan za lokalizaciju, on ne pruža informacije o semantičkom kontekstu objekata u prostoru. Računalni vid koristi 3D kamere (stereo kamere ili Time-of-Flight kamere) i duboke neuronske mreže kako bi viličaru pružio mogućnost prepoznavanja oblika. 
 
 Ključna primjena računalnog vida kod autonomnih viličara je \textbf{precizna manipulacija paletama} (engl. \textit{Fork Pocket Detection}). Kada viličar priđe paleti, kamere smještene na nosaču vilica skeniraju paletu. Algoritmi računalnog vida (npr. detekcija rubova pomoću Sobelovog ili Cannyjevog operatora, Houghova transformacija za pronalaženje pravocrtnih linija ili konvolucijske neuronske mreže poput YOLO modela \cite{yolo}) prepoznaju točne dimenzije i 3D koordinate džepova na paleti namijenjenih za ubadanje vilica. Na temelju tih podataka vrši se korekcija položaja vilica u realnom vremenu, što omogućuje uspješno ubadanje čak i ako je paleta nagnuta ili pomaknuta za nekoliko centimetara u odnosu na idealni položaj.
+
+% TODO: Dodana praktičnost, validacija i tablica CV modela
+U praksi, za robusnu detekciju džepova koriste se moderni modeli kao što su \textbf{YOLOv5/YOLOv8} i \textbf{Mask R-CNN}. Proces validacije ovih modela zahtijeva rigorozne korake: prikupljanje ogromnog \textit{dataset}-a slika iz različitih skladišnih uvjeta (promjene svjetlosti, oštećene palete), obogaćivanje skupa podataka (engl. \textit{data augmentation}) te mjerenje uspješnosti. Tipični rezultati mjereni prosječnom preciznošću (mAP) i postotkom uspješnosti prepoznavanja džepova prikazani su u tablici \ref{tab:cv_validation}.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcc}
+\hline
+Model & mAP(0.5) & Detekcija džepova (uspješnost) \\
+\hline
+YOLOv5 & 0.86 & 92\% \\
+Mask R-CNN & 0.89 & 94\% \\
+\hline
+\end{tabular}
+\caption{Ogledni rezultati validacije modela računalnog vida}
+\label{tab:cv_validation}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{slike/fork_detection_example.png}
+\caption{Primjer detekcije džepova palete pomoću računalnog vida}
+\label{fig:fork_detection}
+\end{figure}
 
 \subsection{Matematički model fuzije senzora (Sensor Fusion)}
 Kako bi se kompenzirali nedostatci pojedinačnih senzora (npr. akumulacija pogreške odometrije zbog proklizavanja kotača, ili gubitak orijentacije LiDAR-a u dugim hodnicima bez prepreka), primjenjuje se fuzija senzora. Najčešće se koristi \textbf{Prošireni Kalmanov filtar \cite{sensorfusion}} (EKF).

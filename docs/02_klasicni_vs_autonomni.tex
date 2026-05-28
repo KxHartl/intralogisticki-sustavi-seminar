@@ -50,3 +50,22 @@ U tablici \ref{tab:usporedba} prikazana je detaljna usporedba klasičnih viliča
 \textbf{Manipulacija teretom} & Ovisi o vještini operatera & Zahtijeva visoku preciznost pozicije palete & Aktivno prepoznavanje paleta pomoću 3D vizije \\ \hline
 \end{tabularx}
 \end{table}
+
+% TODO: Dodani tipični parametri i usporedba
+Osim kvalitativnih razlika, u tablici \ref{tab:params} prikazani su i tipični parametri ovih sustava.
+
+\begin{table}[h]
+\centering
+\caption{Tipični parametri i usporedba}
+\begin{tabular}{lccc}
+\hline
+Karakteristika & Klasični & AGV & Autonomni (AMR) \\
+\hline
+Maks. brzina (m/s) & 1.5--2.0 & 0.8--1.2 & 0.5--1.8 \\
+Preciznost pozicioniranja & operator-dependent & $\pm$10--50 cm & $\pm$1--5 cm (LiDAR/SLAM) \\
+Fleksibilnost promjene rute & visoka (ručno) & niska & vrlo visoka \\
+Tipični scenarij & ručni rad, ad-hoc & stalne trake & dinamično skladište \\
+\hline
+\end{tabular}
+\label{tab:params}
+\end{table}
