@@ -1,6 +1,16 @@
 \section{NAVIGACIJSKE TEHNOLOGIJE}
 Kako bi se autonomni viličar mogao kretati skladištem i precizno manipulirati teretom, on mora posjedovati sposobnost precizne lokalizacije (određivanje vlastitog položaja $x, y$ i orijentacije $\theta$ u prostoru) te navigacije. Suvremeni sustavi odbacuju fizikalne vodiče u korist prirodne navigacije.
 
+\subsection{Senzori autonomnih viličara}
+Za postizanje visoke razine autonomije, viličari se oslanjaju na niz različitih senzora koji prikupljaju podatke o okolini i samom vozilu. Ti se podaci zatim obrađuju kako bi vozilo moglo donositi odluke u realnom vremenu. Najvažniji senzori uključuju:
+\begin{itemize}
+    \item \textbf{LiDAR (Light Detection and Ranging):} Koristi se za precizno mapiranje okoline i izbjegavanje prepreka mjerenjem udaljenosti laserskim zrakama. Osnova je za SLAM algoritme.
+    \item \textbf{3D kamere i sustavi računalnog vida:} Služe za semantičko razumijevanje prostora, prepoznavanje tipa prepreka te preciznu detekciju džepova na paletama prilikom ubadanja vilica.
+    \item \textbf{Odometrijski senzori (enkoderi):} Postavljeni na pogonskim kotačima, mjere prijeđeni put i kut zakretanja kotača. Pomažu u procjeni trenutne pozicije vozila.
+    \item \textbf{Inercijalna mjerna jedinica (IMU):} Sastoji se od akcelerometra i žiroskopa. Mjeri ubrzanje i kutne brzine vozila, čime se kompenziraju pogreške odometrije uslijed proklizavanja kotača.
+    \item \textbf{Sigurnosni laserski skeneri i ultrazvučni senzori:} Omogućuju neposrednu detekciju pješaka i prepreka u neposrednoj blizini vozila (mrtvim kutovima), čime se osigurava radna sigurnost prema ISO 3691-4 standardu.
+\end{itemize}
+
 \subsection{SLAM (Simultaneous Localization and Mapping)}
 % TODO: Umetnuti sliku arhitekture SLAM sustava i procesa lokalizacije (grafikoni skeniranja okoliša).
 SLAM je ključni algoritamski koncept koji omogućuje vozilu da uđe u potpuno nepoznat prostor, izgradi njegovu dvodimenzionalnu ili trodimenzionalnu kartu pomoću senzora te se istovremeno lokalizira unutar te karte. U intralogistici se najčešće koristi \textbf{LiDAR SLAM} koji se oslanja na laserska skeniranja okoline. Tijekom prve vožnje (koju operater obavlja ručno), viličar bilježi položaje fiksnih objekata poput zidova, stupova i regalnih stupova. U kasnijem autonomnom radu, algoritam uspoređuje stvarna skeniranja u realnom vremenu s prethodno snimljenom kartom skladišta.

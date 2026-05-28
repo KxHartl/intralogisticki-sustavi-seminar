@@ -4,6 +4,13 @@ Implementacija autonomnih viličara više nije teorijski koncept, već standardn
 \subsection{Toyota Material Handling}
 Toyota, kao najveći svjetski proizvođač viličara, razvila je seriju autonomnih vozila pod nazivom \textbf{Autopilot}. Toyota Autopilot sustavi izgrađeni su na platformi njihovih standardnih ručnih viličara (poput SAE160 visokopodiznog viličara ili CDI120 horizontalnog prijenosnika paleta), što olakšava održavanje, osigurava dostupnost rezervnih dijelova i pruža visoku mehaničku pouzdanost.
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{slike/toyota_levio_sae160_600x400_1.png}
+\caption{Toyota Autopilot viličar}
+\label{fig:toyota}
+\end{figure}
+
 Središnji dio Toyotinog rješenja je softver \textbf{T-ONE} (\textit{Optimisation Network Enterprise}). T-ONE djeluje kao centralni sustav za upravljanje flotom (Fleet Manager) i predstavlja "mozak" skladišne automatizacije. Arhitektura T-ONE sustava temelji se na klijent-poslužitelj modelu i obavlja sljedeće kritične funkcije:
 \begin{itemize}
     \item \textbf{Integracija s WMS/ERP sustavima:} T-ONE komunicira s WMS-om (npr. SAP EWM) putem web servisa (REST API ili SOAP) ili baze podataka. Kada WMS generira nalog za prijenos palete s lokacije A na lokaciju B, T-ONE zaprima taj nalog i prevodi ga u zadatak za flotu.
@@ -14,12 +21,26 @@ Središnji dio Toyotinog rješenja je softver \textbf{T-ONE} (\textit{Optimisati
 \subsection{Jungheinrich}
 Njemački proizvođač Jungheinrich nudi širok spektar AGV rješenja, s posebnim naglaskom na visokoregalna skladišta i rad u uskim prolazima (VNA — engl. \textit{Very Narrow Aisle}). Primjer je viličar \textbf{EKX 516a}, automatizirani trostrani viličar za visoke regale koji omogućuje podizanje tereta na visine preko 13 metara uz milimetarsku preciznost zahvaljujući laserskom vođenju i induktivnoj navigaciji unutar regala.
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{slike/jungheinrich_ekx516a.jpg}
+\caption{Jungheinrich EKX 516a autonomni viličar}
+\label{fig:jungheinrich}
+\end{figure}
+
 Jungheinrich se ističe integracijskim sučeljem \textbf{Logistics Interface}. To je middleware softver koji se povezuje izravno s viličarima i prevodi WMS naloge u naredbe za kretanje vozila. Glavna prednost Logistics Interface-a je plug-and-play arhitektura koja omogućuje brzu integraciju bez potrebe za kompliciranim i skupim programiranjem na strani klijentskog ERP-a.
 
-\subsection{Gideon i Industrija 5.0}
+\subsection{Gideon}
 Uz globalne korporacije, važan doprinos razvoju intralogistike donose i inovativne tehnološke tvrtke poput hrvatske tvrtke \textbf{Gideon} (ranije Gideon Brothers). Gideon se na globalnom tržištu ističe razvojem naprednih sustava baziranih na 3D računalnom vidu (engl. \textit{vision-based autonomy}) koji omogućuju viličarima robusno snalaženje u vrlo dinamičnim i nepredvidivim okruženjima bez ikakve dodatne infrastrukture.
 
-Pristup ovakvih tvrtki snažno se naslanja na paradigmu \textbf{Industrije 5.0}. Dok se Industrija 4.0 fokusirala primarno na digitalizaciju i strojnu povezanost, Industrija 5.0 promovira \textit{human-centric} pristup — vraćanje čovjeka u središte procesa i poticanje suradnje ljudi i robota. U intralogistici se to najbolje očituje kroz implementaciju hibridnih viličara. Radi se o autonomnim vozilima koja uz senzore i računala zadržavaju standardnu kabinu s volanom i kontrolama. Viličar rutinske zadatke odrađuje autonomno, no u bilo kojem trenutku čovjek može jednostavno ući u kabinu i preuzeti ručno upravljanje kako bi obavio nestandardne, kompleksne ili hitne zadatke. Ovakav pristup maksimalno iskorištava prednosti i stroja i čovjeka, zadržavajući fleksibilnost i sigurnost.
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\textwidth]{slike/gideon.jpg}
+\caption{Gideon autonomni viličar}
+\label{fig:gideon}
+\end{figure}
+
+Gideon tehnologija omogućuje automatizaciju kompleksnih operacija kao što su utovar i istovar kamionskih prikolica te manipulacija teretom u proizvodnim pogonima gdje stalno dolazi do promjena rasporeda robe. Njihovi viličari projektirani su kao kolaborativni strojevi, što znači da je u potpunosti podržan hibridni rad pri kojem čovjek prema potrebi upravlja vozilom.
 
 \subsection{Standard VDA 5050 za interoperabilnost}
 Povijesno gledano, najveći problem skladišne automatizacije bio je "vendor lock-in" — situacija u kojoj je klijent morao kupovati sva vozila od istog proizvođača jer softver za upravljanje flotom tvrtke A nije mogao komunicirati s vozilima tvrtke B. Kako bi se riješio ovaj problem, Udruženje njemačke automobilske industrije (VDA) i VDMA razvili su standard **VDA 5050**.
