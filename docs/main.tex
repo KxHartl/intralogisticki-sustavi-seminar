@@ -14,7 +14,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathptmx}
-\usepackage[style=ieee,backend=bibtex]{biblatex}
+\usepackage[style=ieee,backend=biber]{biblatex}
 \addbibresource{../sources.bib}       % Times New Roman font
 \usepackage{chngcntr}       % Za numeriranje po poglavljima
 \usepackage{tikz}           % TikZ se može koristiti za druge svrhe, ali slike u tekstu uklanjamo
@@ -108,9 +108,13 @@
 
 \tableofcontents
 \newpage
-\listoftables
-\newpage
+\phantomsection
+\addcontentsline{toc}{section}{\listfigurename}
 \listoffigures
+\newpage
+\phantomsection
+\addcontentsline{toc}{section}{\listtablename}
+\listoftables
 \newpage
 
 % =====================================================================
