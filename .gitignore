@@ -53,3 +53,7 @@ docs/main.pdf
 # Exact copies kept only on the local disk
 docs/slike/gideon (1).jpg
 dist/seminar.tex
+
+# Third-party material: kept locally, not published
+data/rag/sources/*.pdf
+data/rag/sources/*.docx
