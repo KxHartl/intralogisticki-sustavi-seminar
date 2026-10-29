@@ -2,7 +2,7 @@
 
 **Autonomni viličari i industrijska vozila**
 
-> Seminar paper – Automated Intralogistics Systems (Automatizirani intralogistički sustavi), FSB, University of Zagreb, 2026
+> Seminar paper, Automated Intralogistics Systems (Automatizirani intralogistički sustavi), MSc in Mechatronics and Robotics, 4th semester, FSB, University of Zagreb, 2026
 
 ![LaTeX](https://img.shields.io/badge/paper-LaTeX-008080)
 ![biblatex](https://img.shields.io/badge/citations-biblatex%20%C2%B7%20IEEE-4b5563)
@@ -16,9 +16,8 @@ Toyota Material Handling, Jungheinrich and Gideon along with the VDA 5050 intero
 standard. It closes with the advantages, an economic comparison (TCO, NPV, ROI and payback
 period) and the technical and operational limits.
 
-This is the version of the course work that was completed. The repository
-[AIS](https://github.com/KxHartl/AIS) is an earlier start for the same course that holds only the
-empty workspace and no paper.
+This repository holds the complete seminar: the paper, its LaTeX source, the presentation and
+the working notes.
 
 ## The paper
 
@@ -31,11 +30,14 @@ empty workspace and no paper.
 |---|---|
 | `docs/main.tex` | the main LaTeX document with the title page and table of contents |
 | `docs/01_uvod.tex` … `docs/07_zakljucak.tex` | one file per chapter, from the introduction to the conclusion |
+| `docs/seminar.tex`, `docs/split_tex.py` | the paper as a single file before it was split into chapters, and the script that split it |
 | `docs/slike/` | figures used in the paper |
 | `docs/generate_charts.py` | the Python script that draws the cost comparison chart |
 | `sources.bib` | the bibliography (biblatex, IEEE style) |
-| `dist/` | the submitted paper, the presentation and the speaker notes |
+| `dist/` | the submitted paper, the presentation (PowerPoint and PDF), the speaker notes, a glossary, notes on figures and two other builds of the paper |
 | `outline.md`, `chapters_plan.md` | the outline and the chapter plan written before the paper |
+| `TASK.md`, `critic_review.md`, `to_fix.md`, `sources_notes.md`, `prezentacija.md` | the task, a review of the draft, the list of fixes, notes on the sources and the presentation script |
+| `data/rag/sources/` | course material and the list of web sources used while writing |
 
 ## Build
 

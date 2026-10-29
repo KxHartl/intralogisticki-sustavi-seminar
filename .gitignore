@@ -35,3 +35,21 @@ data/rag/parsed/
 # Personal notes
 IDEAS.md
 TODO.md
+
+# More LaTeX build output (the submitted paper is in dist/)
+docs/build/
+docs/main.pdf
+*.bcf
+*.lof
+*.lot
+*.run.xml
+*-blx.bib
+
+# Editors and Office temp and lock files
+~$*
+*.swp
+*~
+
+# Exact copies kept only on the local disk
+docs/slike/gideon (1).jpg
+dist/seminar.tex
