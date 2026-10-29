@@ -53,3 +53,7 @@ and `numpy`).
 
 The repository was set up with the owner's [LiteRealm](https://github.com/KxHartl/LiteRealm)
 template, which is where `.ai/`, `CLAUDE.md` and `GEMINI.md` come from.
+
+## License
+
+[Apache-2.0](LICENSE). It covers the author's own work in this repository. Third-party sources are listed, not included.
