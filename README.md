@@ -1,58 +1,53 @@
-# LiteRealm
+# Autonomous forklifts and industrial vehicles
 
-Minimalan template za brzu izradu seminara, zadaća i akademskih radova uz pomoć AI agenata (Gemini, Claude, Copilot…).
+**Autonomni viličari i industrijska vozila**
 
-## Pokretanje novog projekta
+> Seminar paper – Automated Intralogistics Systems (Automatizirani intralogistički sustavi), FSB, University of Zagreb, 2026
 
-```powershell
-# Windows — osnovni setup:
-.\.ai\scripts\bootstrap.ps1 -Name "Moj_Seminar"
+![LaTeX](https://img.shields.io/badge/paper-LaTeX-008080)
+![biblatex](https://img.shields.io/badge/citations-biblatex%20%C2%B7%20IEEE-4b5563)
+![Python](https://img.shields.io/badge/charts-Python%20%C2%B7%20matplotlib-3776AB)
 
-# S RAG podrškom (citiranje iz PDF izvora):
-.\.ai\scripts\bootstrap.ps1 -Name "Moj_Seminar" -Rag cloud
-```
+A seminar paper in Croatian on autonomous forklifts in warehouse and production logistics. It
+compares classic and autonomous forklifts across the levels of autonomy, describes the safety
+systems and the ISO 3691-4 standard, explains the navigation technologies (sensors, SLAM, LiDAR,
+computer vision for pallet handling and sensor fusion), and looks at industrial examples from
+Toyota Material Handling, Jungheinrich and Gideon along with the VDA 5050 interoperability
+standard. It closes with the advantages, an economic comparison (TCO, NPV, ROI and payback
+period) and the technical and operational limits.
+
+This is the version of the course work that was completed. The repository
+[AIS](https://github.com/KxHartl/AIS) is an earlier start for the same course that holds only the
+empty workspace and no paper.
+
+## The paper
+
+- [Seminar paper (PDF)](dist/Kresimir_Hartl_seminar_autonomni_vilicari.pdf)
+- [Presentation (PDF)](dist/AIS_prezentacija.pdf)
+
+## What's inside
+
+| Path | Contents |
+|---|---|
+| `docs/main.tex` | the main LaTeX document with the title page and table of contents |
+| `docs/01_uvod.tex` … `docs/07_zakljucak.tex` | one file per chapter, from the introduction to the conclusion |
+| `docs/slike/` | figures used in the paper |
+| `docs/generate_charts.py` | the Python script that draws the cost comparison chart |
+| `sources.bib` | the bibliography (biblatex, IEEE style) |
+| `dist/` | the submitted paper, the presentation and the speaker notes |
+| `outline.md`, `chapters_plan.md` | the outline and the chapter plan written before the paper |
+
+## Build
+
+The paper uses biblatex with the biber backend.
 
 ```bash
-# Linux / macOS:
-./.ai/scripts/bootstrap.sh --name "Moj_Seminar"
-./.ai/scripts/bootstrap.sh --name "Moj_Seminar" --rag cloud
+cd docs
+latexmk -pdf main.tex
 ```
 
-Bootstrap radi 5 stvari: postavlja naziv, kreira direktorije, konfigurira `.env`, instalira Python pakete, i provjerava LaTeX.
+The chart is regenerated with `python generate_charts.py`, run from `docs/` (it needs `matplotlib`
+and `numpy`).
 
-## Struktura
-
-| Direktorij | Svrha |
-|---|---|
-| `docs/` | Seminari, `.tex` fajlovi, generirani PDF-ovi. **Tvoj rad.** |
-| `src/` | Programski kod, ako je potreban. |
-| `dist/` | Finalne verzije za predaju. |
-| `data/raw/` | Izvorni podaci i literatura. |
-| `data/processed/` | Obrađeni podaci. |
-| `data/rag/sources/` | PDF izvori za RAG pretragu i citiranje. |
-| `.ai/` | Konfiguracija, predlošci, RAG pipeline. |
-
-## LaTeX predlošci
-
-Dostupni u `.ai/templates/`:
-
-| Predložak | Format | Namjena |
-|---|---|---|
-| `fsb-seminar/` | 12pt, A4 | Seminar za FSB |
-| `fsb-thesis/` | 12pt, A4 | Diplomski rad |
-| `kx-paper/` | 10pt, dva stupca | Znanstveni rad |
-
-## RAG — Citiranje iz izvora
-
-1. Stavi PDF-ove (knjige, skripte, članke) u `data/rag/sources/`.
-2. Pokreni ingestion: `python .ai/rag/ingest.py`
-3. Pretraži: `python .ai/rag/query.py "Tvoje pitanje"`
-
-Agent može koristiti RAG za pronalaženje i citiranje relevantnih izvora u seminaru.
-
-## Kompilacija
-
-```powershell
-.\.ai\scripts\helpers\build-docs.ps1       # Windows
-./.ai/scripts/helpers/build-docs.sh        # Linux
-```
+The repository was set up with the owner's [LiteRealm](https://github.com/KxHartl/LiteRealm)
+template, which is where `.ai/`, `CLAUDE.md` and `GEMINI.md` come from.
